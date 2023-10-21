@@ -26,6 +26,7 @@
   - [Test Coverage](/docs/test-coverage)
   - [Type Coverage](/docs/type-coverage)
   - [Snapshot Testing](/docs/snapshot-testing)
+  - [Mutation Testing](/docs/mutation-testing)
   - [Custom Helpers](/docs/custom-helpers)
   - [Custom Expectations](/docs/custom-expectations)
 
