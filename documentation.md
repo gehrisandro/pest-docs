@@ -35,6 +35,7 @@
   - [Test Dependencies](/docs/test-dependencies)
   - [Creating Plugins](/docs/creating-plugins)
   - [Higher Order Testing](/docs/higher-order-testing)
+  - [Mutator Reference](/docs/mutator-reference)
 
 - ## More
   - [Video Resources](/docs/video-resources)

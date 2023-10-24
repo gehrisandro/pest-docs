@@ -23,6 +23,8 @@ After requiring the plugin, you may utilize the `--mutate` option to run mutatio
 ./vendor/bin/pest --mutate
 ```
 
+For more ways to run visit [Run mutation testing](#run-mutation-testing).
+
 <a name="configuration"></a>
 ### Configuration
 
@@ -32,6 +34,8 @@ You can configure mutation testing in you Pest.php file.
 mutate()
     ->paths('src');
 ```
+
+For all the available options see [Options](#options) section.
 
 <a name="profiles"></a>
 #### Alternative configuration profiles
@@ -56,6 +60,7 @@ mutate('arithmetic only')
     ->mutators(Mutators::SET_ARITHMETIC);
 ```
 
+<a name="options"></a>
 #### Options
 
 ##### `paths()` (CLI: `--paths`)
@@ -80,7 +85,9 @@ mutate()
 
 ##### `mutators()` (CLI: `--mutators`)
 
-Choose the mutators you want to use. Choose from various sets or provide individual mutators. If not set, `Mutators::SET_DEFAULT` is used. 
+Choose the mutators you want to use. Choose from various sets or provide individual mutators. If not set, `Mutators::SET_DEFAULT` is used.
+
+A list of all available mutators can be found in the [Mutator Reference](/docs/mutator-reference).
 
 ```php
 use XYZ;
@@ -98,6 +105,25 @@ On the CLI you can provide a comma separated list of mutator names.
 vendor/bin/pest --mutate --mutators=ArithmeticPlusToMinus,ArithmeticMinusToPlus
 ```
 
+##### `stopOnSurvival()` (CLI: `--stop-on-survival`)
+
+Stop execution upon first survived mutant.
+
+```php
+mutate()
+    ->stopOnSurvival();
+```
+
+##### `stopOnUncovered()` (CLI: `--stop-on-uncovered`)
+
+Stop execution upon first uncovered mutant.
+
+```php
+mutate()
+    ->stopOnUncovered();
+```
+
+<a name="run-mutation-testing"></a>
 ### Run mutation testing
 
 #### CLI
@@ -239,6 +265,48 @@ Just like code coverage, mutation coverage can also be enforced. You can use the
 ```bash
 ./vendor/bin/pest --mutate --min=100
 ```
+
+## Custom Mutators
+
+You may want to create your own custom mutators. You can do so by creating a class that implements the `Mutator` interface. \
+This example will remove `use` statements.
+
+```php
+namespace App\Mutators;
+
+use Pest\XYZ\Contracts\Mutator;
+use PhpParser\Node;
+use PhpParser\NodeTraverser;
+
+class RemoveUseStatement implements Mutator
+{
+    public static function can(Node $node): bool
+    {
+         return $node instanceof Node\Stmt\Use_;
+    }
+
+    public static function mutate(Node $node): int
+    {
+        return NodeTraverser::REMOVE_NODE;
+    }
+}
+```
+
+Afterward you can use your mutator.
+
+```php
+use App\Mutators\RemoveUseStatement;
+
+mutate()
+    ->mutators(RemoveUseStatement::class);
+```
+
+In the CLI you must provide the full class name.
+
+```bash
+vendor/bin/pest --mutate --mutators="App\\Mutators\\RemoveUseStatement"
+```
+
 
 ---
 
