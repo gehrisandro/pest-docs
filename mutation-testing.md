@@ -131,6 +131,8 @@ TODO: How to run mutation testing in CI/CD
 
 With Pest Mutation testing, you can configure the following options.
 
+TODO: Many more options need to be added.
+
 <div class="collection-method-list" markdown="1">
 
 - [`paths()`](#options-paths)
